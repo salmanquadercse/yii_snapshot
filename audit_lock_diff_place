@@ -1,1 +1,30 @@
+//model end lock
+public function check_lock_date($attribute, $params)
+{
+	$lockDate = CArray::lockDate();
+	if (strtotime($this->entry_date) <= strtotime($lockDate)) {
+		$this->addError($attribute, 'Entry Date is locked till '.$lockDate);
+	}
+}
+array('entry_date', 'check_lock_date'),
+array('entry_date', 'check_lock_date', 'on' => 'insert'),
 
+
+//frontend-lock
+'options' => array(
+	'changeMonth' => 'true',
+	'changeYear' => 'true',
+	'dateFormat' => 'yy-mm-dd',
+	'minDate' => CArray::lockDate(), // minimum date
+),
+
+
+//checkbox disabled
+array(
+	'disabled' => '!CArray::visibilityStatusRightNow($data->entry_date)',
+	'value' => '$data->id',
+	'class' => 'CustomCheckBoxColumn',
+),
+
+//disabled option button
+'visible' => 'CArray::visibilityStatusRightNow($data->entry_date)',

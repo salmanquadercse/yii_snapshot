@@ -28,3 +28,7 @@ array(
 
 //disabled option button
 'visible' => 'CArray::visibilityStatusRightNow($data->entry_date)',
+
+
+//validate from backend
+CArray::lockedDateValidate('inventory/admin', ['transaction_date'=>$inTime]);
